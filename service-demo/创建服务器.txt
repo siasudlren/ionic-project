@@ -1,0 +1,72 @@
+1: 创建 node.js 服务器端
+   生成package.json文件
+2: 右键service-demo =>show in explorer
+   进入service-demo文件夹
+   右键 PowerShell =>npm init
+        名字:
+        版本号:
+        描述:
+        入口文件模块:
+        测试命令:
+        git 服务器仓库:
+        关键词:
+        作者名字:
+        协议:(mit)开放协议
+3: 创建文件service-demo =>   app.js
+   引入express
+   安装    npm i -s express
+4: 编辑app.js 文件 创建服务器   ES6
+ test.html
+    <a href="http://127.0.0.1:3000/">链接提交的请求都是get请求</a>
+    <form action="http://127.0.0.1:3000">
+        <input type="text" name="uname"/>
+        <input type="submit" value="submit"/>
+    </form>
+ app.js
+   const express = require('express');
+   let app=new express();
+   app.listen(3000);
+
+   app.get('/',(req,res)=>{
+       let userName= req.query.uname;
+       let userPwd=req.query.upwd;
+       res.end(`userName:${userName},userPwd:${userPwd}`);
+   });
+5: 安装   npm  i -s body-parser    依赖  可以发送post
+ test.html
+    <form action="http://127.0.0.1:3000" method="post">
+        <input type="text" name="uname"/>
+        <input type="password" name="upwd"/>
+        <input type="submit" value="submit"/>
+    </form>
+ app.js
+   app.use(bodyParser.urlencoded({extended:true}))
+   app.post('/',(req,res)=>{
+       let userName= req.body.uname;
+       let userPwd=req.body.upwd;
+       res.end(`userName:${userName},userPwd:${userPwd}`);
+   });
+6: 安装   npm  i -g supervisor      全局supervisor  实现服务器热加载
+   用法   文件夹内使用 右键 PowerShell =>supervisor app=>rs
+7: 安装,mysql 第三方模块 npm i -S mysql
+   具体处理用户注册请求
+   引入 mysql模块
+   创建数据库连接池 pool
+   定义sql语句
+   执行语句
+   判断执行结果
+8:服务器端返回相应
+    app.post('/signUp', (req, res) => {
+        let user = req.body.user;
+        let sql = "INSERT INTO db.user VALUES(NULL,?,?,?,?,?,?)";
+        pool.query(sql, [user.email, user.username, user.password, user.gender, user.age, user.city], (err, results) => {
+            if (err) throw err;
+            if (results.affectedRows === 1) {
+                res.send({"status": "ok"});
+            } else {
+                res.send({"status": "err"});
+            }
+        })
+    });
+
+

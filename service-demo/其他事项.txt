@@ -1,0 +1,20 @@
+/*
+ *   查看端口号
+ *   netstat  -ano | findstr 端口号
+ *
+ *   关闭端口号
+ *   taskkill /f /pid 5764
+ *   taskkill /f /pid 6752
+*/
+
+node.js 模块
+    核心模块: http path fs global
+    第三模块: express/koa  mysql
+    自定义模块:
+        文件:
+        目录:
+    http请求方式:
+    get  (web 表单,默认) 不安全,字符长度有限
+    post  (web 表单,指定method='post',需要显式声明) 安全,信息大小不限
+    delete
+    put

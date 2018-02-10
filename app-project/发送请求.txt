@@ -1,0 +1,48 @@
+1: app.module.ts
+   引入: import {HttpClientModule} from "@angular/common/http";
+   加入: @NgModule({
+           imports: [
+             HttpClientModule
+           ]})
+2: sign-up.ts
+   引入: import {HttpClient} from "@angular/common/http";
+   加入: export class SignUpPage {
+         constructor(public httpClient: HttpClient) {}
+         ionViewDidLoad() { console.log('ionViewDidLoad SignUpPage');}
+         signUp(): void {
+           let url = 'http://127.0.0.1:3000/signUp';
+           this.httpClient.post(url, {
+             发送数据
+           }).subscribe((res) => {
+             请求成功回调..
+           }, (error) => {
+             请求失败回调...
+           })
+         }
+       }
+**跨域问题
+  1: 修改文件 ionic.config.json
+     添加代理 "proxies": [
+               {
+                 "path": "/signUp",
+                 "proxyUrl": "http://127.0.0.1:3000/signUp"
+               }
+             ]
+
+     修改url let url = '/signUp';
+3:接收响应结果
+  sign-up.ts
+  引入 AlertController   alert警告框
+  public alertCtrl:AlertController
+  this.alertCtrl.create({
+    title:'',
+    subTitle:'',
+    buttons:['OK']
+  }).present();
+  引入 ToastController   一秒提示框
+  public toastCtrl:ToastController
+  this.toastCtrl.create({
+            message:'服务器错误',
+            duration:1000,
+            position:'middle'
+       }).present();
