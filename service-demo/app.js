@@ -18,7 +18,6 @@ let app = new express();
 //express 中间件  json数据使用
 app.use(bodyParser.json());
 
-
 app.post('/signUp', (req, res) => {
     let user = req.body.user;
     let sql = "SELECT * FROM db.user WHERE email=?";
@@ -27,7 +26,7 @@ app.post('/signUp', (req, res) => {
         if (results.length === 1) {
             res.send({"status": "exist"});
         } else {
-            let sql = "INSERT INTO db.user VALUES(NULL,?,?,?,?,?,?)";
+            let sql = "INSERT INTO db.user VALUE(NULL,?,?,?,?,?,?)";
             pool.query(sql, [user.email, user.username, user.password, user.gender, user.age, user.city], (err, results) => {
                 if (err) throw err;
                 if (results.affectedRows === 1) {
@@ -39,6 +38,17 @@ app.post('/signUp', (req, res) => {
         }
     });
 });
-
+app.post('/signIn', (req, res) => {
+    let user = req.body.user;
+    let sql = "SELECT * FROM db.user WHERE email=? AND password=?";
+    pool.query(sql, [user.email, user.password], (err, results) => {
+        if (err) throw err;
+        if (results.length === 1) {
+            res.send({"status": "ok"});
+        } else {
+            res.send({"status": "err"});
+        }
+    })
+});
 
 app.listen('3000');
