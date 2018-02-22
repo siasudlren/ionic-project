@@ -51,4 +51,22 @@ app.post('/signIn', (req, res) => {
     })
 });
 
+app.get('/products/:page', (req, res) => {
+    let page = req.params.page;
+    const pageSize = 20;
+    let sql = "SELECT title,price,picture,detail FROM db.product LIMIT ? OFFSET ?";
+    pool.query(sql, [pageSize, (page - 1) * pageSize], (err, results) => {
+        if (err) throw err;
+        res.send(results);
+    })
+});
+app.get('/picture/:productID',(req,res) => {
+    let productId=req.params.productID;
+    let sql='SELECT * FROM db.picture WHERE productId=?';
+    pool.query(sql,[productId],(err,results)=>{
+        if (err) throw err;
+        res.send(results);
+    })
+});
+
 app.listen('3000');

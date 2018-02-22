@@ -18,3 +18,7 @@ node.js 模块
     post  (web 表单,指定method='post',需要显式声明) 安全,信息大小不限
     delete
     put
+
+
+
+    webstorm  live templates   定义快捷方式
